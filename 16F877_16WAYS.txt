@@ -1,0 +1,625 @@
+  
+list p=16f877
+#include "p16f877.inc" 
+
+  __CONFIG    _CP_OFF & _PWRTE_ON & _WDT_OFF & _RC_OSC
+      ;__CONFIG _CP_OFF & _WDT_OFF & _PWRTE_ON & _XT_OSC
+ 
+PDel0	 equ	0x0D	; variable para Delay
+PDel1	 equ	0x0E	; variable para Delay 
+
+Reset	 org 0x00 ; Aqui comienza el MC y se configuran los puertos
+	 goto Inicio
+         org 0x05 ; Origen del codigo
+ 
+Inicio
+
+	 bsf STATUS,RP0 ; Pasamos de Banco 0 a Banco 1
+
+         movlw b'11111111' ; Se mueve 11111 a W
+         movwf TRISD ; Se carga W en TRISA
+ 
+         movlw b'00000000' 
+         movwf TRISB
+ 
+         movlw b'00000000' 
+         movwf TRISC
+ 
+         bcf STATUS,RP0 ; Se pasa del Banco 1 al Banco 0
+ 
+        ;canales de disparo;
+         bcf PORTB,0 ; Comienza apagado
+	 bcf PORTB,1 ; Comienza apagado
+	 bcf PORTB,2 ; Comienza apagado 
+	 bcf PORTB,3 ; Comienza apagado 
+	 bcf PORTB,4 ; Comienza apagado 
+	 bcf PORTB,5 ; Comienza apagado 
+	 bcf PORTB,6 ; Comienza apagado 
+	 bcf PORTB,7 ; Comienza apagado 
+ 	 bcf PORTC,0 ; Comienza apagado
+         bcf PORTC,1 ; Comienza apagado
+         bcf PORTC,2 ; Comienza apagado 
+         bcf PORTC,3 ; Comienza apagado 
+         bcf PORTC,4 ; Comienza apagado 
+         bcf PORTC,5 ; Comienza apagado 
+         bcf PORTC,6 ; Comienza apagado 
+         bcf PORTC,7 ; Comienza apagado 
+ 
+         ;leds menu select delay;
+         clrf    PORTA	 ; limpia el puerto A
+         clrf    PORTB	 ; limpia el puerto B
+         clrf    PORTC	 ; limpia el puerto A
+         clrf    PORTD	 ; limpia el puerto B		
+
+ 
+switch 
+        btfsc PORTD,0	; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect0	; llama al efecto y lo ejecuta
+	
+        btfsc PORTD,1   ; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect1	; llama al efecto y lo ejecuta	 
+
+        btfsc PORTD,2   ; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect2	; llama al efecto y lo ejecuta
+	
+        btfsc PORTD,3	; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect3	; llama al efecto y lo ejecuta
+	
+        btfsc PORTD,4  ; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect4	; llama al efecto y lo ejecuta	 
+
+        btfsc PORTD,5  ; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect5	; llama al efecto y lo ejecuta
+         
+        btfsc PORTD,6	; comprueba botton selecctor de efectos si esta en 0 logico
+        call    efect6	; llama al efecto y lo ejecuta
+	
+        btfsc PORTD,7  ; comprueba botton selecctor de efectos si esta en 0 logico
+        ;call    efect7	; llama al efecto y lo ejecuta	 
+        call    efect0	; llama al efecto y lo ejecuta	
+
+        goto    swich ; Comienza a revisar de nuevo
+
+;======================== Efectos =========================
+efect0
+       ; bsf     PORTB,0	; 16 lineas de disparo 	
+        ;call    Delay
+        ;bsf     PORTB,1
+         bsf     PORTB,0	; 16 lineas de disparo 		 test fijo
+        ;call    Delay
+	return
+	
+efect1	 		 
+	btfsc   PORTD,0 ; comprobacion para detectar ignicion
+	call firefect1 ; MODO DISPARO ACTIVADO  
+        return	 
+ 
+firefect1 
+	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 	
+efect2	        
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion	
+        call    firefect2
+        return	 
+	
+firefect2
+	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 
+	
+	
+efect3
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion
+        call    firefect3	
+	return
+	
+firefect3
+	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 
+	
+	
+efect4
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion	
+        call    firefect4
+	return
+	
+firefect4
+	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 
+	
+	
+efect5
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion	
+        call    firefect5
+	return
+
+firefect5	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 	
+	
+efect6
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion	
+        call    firefect6
+	return
+	
+firefect6
+	
+        bsf     PORTB,0	; 16 lineas de disparo 	
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 	
+	
+efect7
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion
+        call    firefect7
+	return
+	
+firefect7
+	
+        btfsc   PORTD,0 ; comprobacion para detectar ignicion
+        call    Delay
+	bcf     PORTB,0
+	
+        bsf     PORTB,1	
+        call    Delay
+	bcf     PORTB,1
+	
+        bsf     PORTB,2	
+        call    Delay
+	bcf     PORTB,2
+	
+	bsf     PORTB,3	
+        call    Delay
+	bcf     PORTB,3
+	
+        bsf     PORTB,4	
+        call    Delay
+	bcf     PORTB,4
+	
+        bsf     PORTB,5	
+        call    Delay
+	bcf     PORTB,5
+	
+	bsf     PORTB,6	
+        call    Delay
+	bcf     PORTB,6
+	
+	bsf     PORTB,7	
+        call    Delay
+	bcf     PORTB,7
+	
+
+        bsf     PORTC,0	
+        call    Delay
+	bcf     PORTC,0
+	
+        bsf     PORTC,1	
+        call    Delay
+	bcf     PORTC,1
+	
+        bsf     PORTC,2	
+        call    Delay
+	bcf     PORTC,2
+	
+	bsf     PORTC,3	
+        call    Delay
+	bcf     PORTC,3
+	
+        bsf     PORTC,4	
+        call    Delay
+	bcf     PORTC,4
+	
+        bsf     PORTC,5	
+        call    Delay
+	bcf     PORTC,5
+	
+	bsf     PORTC,6	
+        call    Delay
+	bcf     PORTC,6
+	
+	bsf     PORTC,7	
+        call    Delay
+        bcf     PORTC,7
+        return	 	
+	 
+	
+	
+        	 
+;-------------------------------------------------------------
+; Delay 41500 ciclos
+;-------------------------------------------------------------
+Delay  movlw	.255    ; 1 set numero de repeticion  (B)
+        movwf   PDel0     ; 1 |
+PLoop1  movlw   .255     ; 1 set numero de repeticion  (A)
+        movwf   PDel1     ; 1 |
+PLoop2  clrwdt            ; 1 clear watchdog
+        decfsz  PDel1,  1  ; 1 + (1) es el tiempo 0  ? (A)
+        goto    PLoop2    ; 2 no, loop
+        decfsz  PDel0,  1 ; 1 + (1) es el tiempo 0  ? (B)
+        goto    PLoop1    ; 2 no, loop
+PDelL1  goto 	PDelL2         ; 2 ciclos delay
+PDelL2  clrwdt              ; 1 ciclo delay
+        return              ; 2+2 Fin.
+;========================= final ========================== 
+ 
+ end
+ 
